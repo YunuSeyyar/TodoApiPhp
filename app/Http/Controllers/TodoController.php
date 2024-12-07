@@ -55,12 +55,29 @@ class TodoController extends Controller
         return response()->json($todo);
     }
 
+    public function delete($id){
+
+    }
+
     // (D)Todo Silme
     public function destroy($id)
     {
-        $todo = Todo::findOrFail($id);
+        $todo = Todo::find($id);
+    if ($todo) {
         $todo->delete();
-
-        return response()->json(['message' => 'Todo deleted successfully']);
+        return response()->json($todo);
     }
+    return response()->json(404);
+    }
+
+    public function restore($id)
+    {
+        $todo = Todo::withTrashed()->find($id);
+    if ($todo) {
+        $todo->restore();
+        return response()->json($todo);
+    }
+    return response()->json(404);
+    }
+
 }

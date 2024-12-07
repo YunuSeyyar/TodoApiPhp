@@ -1,0 +1,6 @@
+[
+  {
+    "type": "sqlite",
+    "path": "c:\\Laravel\\todoapiphp\\database\\db2.sqlite"
+  }
+]
