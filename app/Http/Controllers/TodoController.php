@@ -9,6 +9,7 @@ class TodoController extends Controller
 {
     public function store(Request $request)
     {
+
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -16,20 +17,21 @@ class TodoController extends Controller
         ]);
 
         $todo = Todo::create($validated);
-        return response()->json($todo, 201);
+        return response($todo);
     }
 
     // (R)Tüm Todoları Listeleme
     public function index()
     {
-        $todos = Todo::all();
+        $todos = Todo::get();
         return response()->json($todos);
     }
 
     // (U)Todo Güncelleme
     public function update(Request $request, $id)
     {
-        $todo = Todo::findOrFail($id);
+        $todo = Todo::findOrFail($id); // 2 sorgu 1. var mı? 2. çekmek
+        //$todo = Todo::where('completed', 1)->get();
 
         $validated = $request->validate([
             'title' => 'string|max:255',
@@ -37,7 +39,19 @@ class TodoController extends Controller
             'completed' => 'boolean',
         ]);
 
-        $todo->update($validated);
+        $todo->update($validated); // 3. sorgu
+
+        /*
+        $todo->update([
+            "name" => $request->name
+        ]);
+        */
+
+
+        /*
+
+            Todo::where('id', $id)->update(...);
+        */
         return response()->json($todo);
     }
 
