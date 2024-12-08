@@ -80,4 +80,19 @@ class TodoController extends Controller
     return response()->json(404);
     }
 
+    public function trashed()
+    {
+    $trashedTodos = Todo::onlyTrashed()->get(); // Sadece silinmiş kayıtlar
+    return response()->json($trashedTodos);
+    }
+
+    public function forceDelete($id)
+    {
+    $todo = Todo::withTrashed()->findOrFail($id);
+    $todo->forceDelete(); // Kayıt veritabanından tamamen silinir
+    return response()->json();
+    }
+
+
+
 }
